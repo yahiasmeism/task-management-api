@@ -1,64 +1,120 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400"></a></p>
+# Task Management API
 
-<p align="center">
-<a href="https://travis-ci.org/laravel/framework"><img src="https://travis-ci.org/laravel/framework.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+This is a Task Management API built with Laravel. It allows users to manage projects, tasks, and comments.
 
-## About Laravel
+## Features
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+- User authentication
+- Project management
+- Task management
+- Comment management
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+## Getting Started
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+### Prerequisites
 
-## Learning Laravel
+- PHP
+- Composer
+- Laravel
+- MySQL or any other supported database
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+### Installation
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains over 2000 video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+1. Clone the repository:
+    ```sh
+    git clone https://github.com/yahiasmeism/task-management-api.git
+    cd task-management-api
+    ```
 
-## Laravel Sponsors
+2. Install dependencies:
+    ```sh
+    composer install
+    ```
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the Laravel [Patreon page](https://patreon.com/taylorotwell).
+3. Copy `.env.example` to `.env` and configure your environment variables:
+    ```sh
+    cp .env.example .env
+    ```
 
-### Premium Partners
+4. Generate application key:
+    ```sh
+    php artisan key:generate
+    ```
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Cubet Techno Labs](https://cubettech.com)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[Many](https://www.many.co.uk)**
-- **[Webdock, Fast VPS Hosting](https://www.webdock.io/en)**
-- **[DevSquad](https://devsquad.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[OP.GG](https://op.gg)**
-- **[WebReinvent](https://webreinvent.com/?utm_source=laravel&utm_medium=github&utm_campaign=patreon-sponsors)**
-- **[Lendio](https://lendio.com)**
+5. Run migrations and seed the database:
+    ```sh
+    php artisan migrate --seed
+    ```
 
-## Contributing
+6. Start the development server:
+    ```sh
+    php artisan serve
+    ```
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+### Using Postman Collection
 
-## Code of Conduct
+1. Import the Postman Collection:
+    - Open Postman.
+    - Click on `Import` in the top left corner.
+    - Select the `Task Management API.postman_collection.json` file from the project root.
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+2. Set the base URL:
+    - In Postman, go to the `Environments` section.
+    - Create a new environment and set the `base_url` variable to your application's URL (e.g., `http://127.0.0.1:8000`).
 
-## Security Vulnerabilities
+3. Test the API:
+    - Use the endpoints provided in the collection to test the API functionalities.
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+### API Endpoints
+
+#### Authentication
+
+- `POST /api/register` - Register a new user
+- `POST /api/login` - Login a user
+
+#### User
+
+- `GET /api/user` - Get authenticated user details
+- `GET /api/user/projects` - Get user projects
+- `GET /api/user/tasks` - Get user tasks
+
+#### Projects
+
+- `GET /api/projects` - Get all projects
+- `POST /api/projects` - Create a new project
+- `GET /api/projects/{project_id}` - Get project details
+- `PUT /api/projects/{project_id}` - Update project
+- `DELETE /api/projects/{project_id}` - Delete project
+- `GET /api/projects/{project_id}/users` - Get users in a project
+- `POST /api/projects/{project_id}/invite` - Invite user to project
+- `GET /api/projects/{project_id}/accept/{invitee_id}` - Accept project invitation
+- `PUT /api/projects/{project_id}/users/{userId}/role` - Update user role in project
+- `DELETE /api/projects/{project_id}/users/{userId}` - Remove user from project
+
+#### Tasks
+
+- `POST /api/projects/{project_id}/tasks` - Create a task
+- `GET /api/projects/{project_id}/tasks` - Get all tasks in a project
+- `GET /api/projects/{project_id}/tasks/{task_id}` - Get task details
+- `PUT /api/projects/{project_id}/tasks/{task_id}` - Update task
+- `DELETE /api/projects/{project_id}/tasks` - Delete tasks
+- `PUT /api/projects/{project_id}/tasks/{task_id}/status` - Update task status
+- `GET /api/projects/{project_id}/users/{userId}/tasks` - Get user tasks in project
+
+#### Project Comments
+
+- `GET /api/projects/{project_id}/comments` - Get all comments in a project
+- `POST /api/projects/{project_id}/comments` - Create a project comment
+- `PUT /api/projects/{project_id}/comments/{comment_id}` - Update project comment
+- `DELETE /api/projects/{project_id}/comments/{comment_id}` - Delete project comment
+
+#### Task Comments
+
+- `GET /api/tasks/{task_id}/comments` - Get all comments in a task
+- `POST /api/tasks/{task_id}/comments` - Create a task comment
+- `PUT /api/tasks/{task_id}/comments/{comment_id}` - Update task comment
+- `DELETE /api/tasks/{task_id}/comments/{comment_id}` - Delete task comment
 
 ## License
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.

@@ -31,12 +31,13 @@ class TaskController extends Controller
 
     public function store(Request $request, $projectId)
     {
-        $currentUser = Auth::user();
+
         $validate = Validator::make($request->all(), [
             'title' => 'required|string|max:255',
             'description' => 'nullable|string',
             'status' => 'in:in queue,in progress,done',
             'user_id' => ['required', 'exists:users,id', new UserInProject($projectId)],
+            'due_date'=>'date'
         ]);
         if ($validate->fails()) {
             return response()->json([
@@ -70,6 +71,7 @@ class TaskController extends Controller
             'title' => 'required|string|max:255',
             'description' => 'nullable|string',
             'status' => 'in:in queue,in progress,done',
+            'due_date'=>'date'
         ]);
 
         if ($validate->fails()) {
@@ -77,18 +79,18 @@ class TaskController extends Controller
                 'error' => $validate->errors(),
             ], 400);
         }
-        $task->update($request->all());
+        $task->update($validate->validated());
         return response()->json($task);
     }
 
-    public function destroy($projectId, $taskId)
+    public function destroy(Request $request, $projectId)
     {
-        $task = $this->findTaskOrFail($taskId);
-        if ($task instanceof JsonResponse) {
-            return $task;
-        }
-        $task->delete();
-        return response()->json(['message' => 'deleted successfuly']);
+
+        $taskIds = $request->all();
+    
+        Task::whereIn('id', $taskIds)->where('project_id', $projectId)->delete();
+    
+        return response()->json(['message' => 'deleted successfully']);
     }
 
 
